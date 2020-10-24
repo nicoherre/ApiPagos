@@ -44,7 +44,6 @@
 		7E71FDFB253E685B009B9DFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7E71FDFD253E685B009B9DFF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7E71FDFE253E685B009B9DFF /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		7E71FE08253E6EDE009B9DFF /* Constants.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Constants.h; sourceTree = "<group>"; };
 		7E9EABCF2543ABD0000154F3 /* InstallmentsViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = InstallmentsViewController.h; sourceTree = "<group>"; };
 		7E9EABD02543ABD0000154F3 /* InstallmentsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InstallmentsViewController.m; sourceTree = "<group>"; };
 		7E9EABD52543DE47000154F3 /* PayerCost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayerCost.h; sourceTree = "<group>"; };
@@ -87,7 +86,6 @@
 				7E71FE0A253E6F01009B9DFF /* Views */,
 				7E71FE09253E6EF4009B9DFF /* Models */,
 				7E71FE0C253E6F1E009B9DFF /* Helpers */,
-				7E71FE06253E6BA1009B9DFF /* Configuration */,
 				7E71FDF5253E6859009B9DFF /* Main.storyboard */,
 				7E71FDF8253E685B009B9DFF /* Assets.xcassets */,
 				7E71FDFA253E685B009B9DFF /* LaunchScreen.storyboard */,
@@ -95,14 +93,6 @@
 				7E71FDFE253E685B009B9DFF /* main.m */,
 			);
 			path = ApiPagos;
-			sourceTree = "<group>";
-		};
-		7E71FE06253E6BA1009B9DFF /* Configuration */ = {
-			isa = PBXGroup;
-			children = (
-				7E71FE08253E6EDE009B9DFF /* Constants.h */,
-			);
-			path = Configuration;
 			sourceTree = "<group>";
 		};
 		7E71FE09253E6EF4009B9DFF /* Models */ = {
