@@ -13,13 +13,14 @@
 		7E042154254113C100DB5C8F /* CardIssuer.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E042153254113C100DB5C8F /* CardIssuer.m */; };
 		7E71FDEE253E6859009B9DFF /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E71FDED253E6859009B9DFF /* AppDelegate.m */; };
 		7E71FDF1253E6859009B9DFF /* SceneDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E71FDF0253E6859009B9DFF /* SceneDelegate.m */; };
-		7E71FDF4253E6859009B9DFF /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E71FDF3253E6859009B9DFF /* ViewController.m */; };
+		7E71FDF4253E6859009B9DFF /* MainViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E71FDF3253E6859009B9DFF /* MainViewController.m */; };
 		7E71FDF7253E6859009B9DFF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E71FDF5253E6859009B9DFF /* Main.storyboard */; };
 		7E71FDF9253E685B009B9DFF /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7E71FDF8253E685B009B9DFF /* Assets.xcassets */; };
 		7E71FDFC253E685B009B9DFF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7E71FDFA253E685B009B9DFF /* LaunchScreen.storyboard */; };
 		7E71FDFF253E685B009B9DFF /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E71FDFE253E685B009B9DFF /* main.m */; };
 		7E9EABD12543ABD0000154F3 /* InstallmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABD02543ABD0000154F3 /* InstallmentsViewController.m */; };
 		7E9EABD72543DE47000154F3 /* PayerCost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABD62543DE47000154F3 /* PayerCost.m */; };
+		7E9EABDC2544914B000154F3 /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABDB2544914B000154F3 /* Loader.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,8 +37,8 @@
 		7E71FDED253E6859009B9DFF /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		7E71FDEF253E6859009B9DFF /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
 		7E71FDF0253E6859009B9DFF /* SceneDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SceneDelegate.m; sourceTree = "<group>"; };
-		7E71FDF2253E6859009B9DFF /* ViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ViewController.h; sourceTree = "<group>"; };
-		7E71FDF3253E6859009B9DFF /* ViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ViewController.m; sourceTree = "<group>"; };
+		7E71FDF2253E6859009B9DFF /* MainViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MainViewController.h; sourceTree = "<group>"; };
+		7E71FDF3253E6859009B9DFF /* MainViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MainViewController.m; sourceTree = "<group>"; };
 		7E71FDF6253E6859009B9DFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		7E71FDF8253E685B009B9DFF /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7E71FDFB253E685B009B9DFF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -48,6 +49,8 @@
 		7E9EABD02543ABD0000154F3 /* InstallmentsViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = InstallmentsViewController.m; sourceTree = "<group>"; };
 		7E9EABD52543DE47000154F3 /* PayerCost.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PayerCost.h; sourceTree = "<group>"; };
 		7E9EABD62543DE47000154F3 /* PayerCost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PayerCost.m; sourceTree = "<group>"; };
+		7E9EABDA2544914B000154F3 /* Loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
+		7E9EABDB2544914B000154F3 /* Loader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Loader.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,6 +121,8 @@
 		7E71FE0A253E6F01009B9DFF /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				7E9EABDA2544914B000154F3 /* Loader.h */,
+				7E9EABDB2544914B000154F3 /* Loader.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -129,8 +134,8 @@
 				7E71FDED253E6859009B9DFF /* AppDelegate.m */,
 				7E71FDEF253E6859009B9DFF /* SceneDelegate.h */,
 				7E71FDF0253E6859009B9DFF /* SceneDelegate.m */,
-				7E71FDF2253E6859009B9DFF /* ViewController.h */,
-				7E71FDF3253E6859009B9DFF /* ViewController.m */,
+				7E71FDF2253E6859009B9DFF /* MainViewController.h */,
+				7E71FDF3253E6859009B9DFF /* MainViewController.m */,
 				7E04214E25410E2600DB5C8F /* BankListViewController.h */,
 				7E04214F25410E2600DB5C8F /* BankListViewController.m */,
 				7E9EABCF2543ABD0000154F3 /* InstallmentsViewController.h */,
@@ -217,7 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7E71FDF4253E6859009B9DFF /* ViewController.m in Sources */,
+				7E71FDF4253E6859009B9DFF /* MainViewController.m in Sources */,
 				7E71FDEE253E6859009B9DFF /* AppDelegate.m in Sources */,
 				7E04215025410E2600DB5C8F /* BankListViewController.m in Sources */,
 				7E71FDFF253E685B009B9DFF /* main.m in Sources */,
@@ -226,6 +231,7 @@
 				7E9EABD72543DE47000154F3 /* PayerCost.m in Sources */,
 				7E0421432540D63D00DB5C8F /* HTTPHandler.m in Sources */,
 				7E04214C2540F62F00DB5C8F /* PaymentMethod.m in Sources */,
+				7E9EABDC2544914B000154F3 /* Loader.m in Sources */,
 				7E9EABD12543ABD0000154F3 /* InstallmentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

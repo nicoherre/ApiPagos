@@ -6,7 +6,9 @@
 //
 
 #import "HTTPHandler.h"
-#import "Constants.h"
+
+static NSString * const ACCESS_TOKEN = @"TEST-8840337261813218-101714-89c79eb0afa05776aba121e70a00c911-66801600";
+static NSString * const AUTHORIZATION_BEARER = @"Bearer TEST-8840337261813218-101714-89c79eb0afa05776aba121e70a00c911-66801600";
 
 @implementation HTTPHandler
 

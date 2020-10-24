@@ -5,29 +5,36 @@
 //  Created by mlgw on 10/19/20.
 //
 
-#import "ViewController.h"
+#import "MainViewController.h"
 #import "BankListViewController.h"
 #import "HTTPHandler.h"
 #import "PaymentMethod.h"
+#import "Loader.h"
 
-@interface ViewController ()
+static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/payment_methods";
+
+@interface MainViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAmount;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerPaymentMethods;
 @property (strong, nonatomic) NSMutableString* currentAmount;
 @property (strong, nonatomic) NSArray* paymentMethods;
+@property (strong, nonatomic) Loader* loader;
 @end
 
-@implementation ViewController
+
+
+@implementation MainViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    [self requestPaymentMethods];
-    
+
+    self.loader = [[Loader alloc] initWithParent:self.view];
     self.paymentMethods = [[NSArray alloc] init];
     self.textFieldAmount.delegate = self;
     self.pickerPaymentMethods.delegate = self;
     self.pickerPaymentMethods.dataSource = self;
+    
+    [self requestPaymentMethods];
 }
 
 - (void)viewWillAppear:(BOOL)animated{
@@ -37,7 +44,8 @@
 
 
 -(void)requestPaymentMethods{
-    [HTTPHandler requestContentFromURL:@"https://api.mercadopago.com/v1/payment_methods" withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
+    [self.loader showLoading];
+    [HTTPHandler requestContentFromURL:API_PAYMENT_METHODS withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
         if (error) {
             // mostrar error
         }
@@ -45,6 +53,7 @@
             self.paymentMethods = [self getPaymentMethodsFrom:json];
             [self.pickerPaymentMethods reloadAllComponents];
         }
+        [self.loader hideLoading];
     }];
 }
 

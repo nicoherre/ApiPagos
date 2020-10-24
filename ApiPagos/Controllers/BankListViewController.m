@@ -9,11 +9,14 @@
 #import "HTTPHandler.h"
 #import "CardIssuer.h"
 #import "InstallmentsViewController.h"
+#import "Loader.h"
+
+static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/payment_methods/card_issuers";
 
 @interface BankListViewController ()
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerBankList;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
-
+@property (strong, nonatomic) Loader* loader;
 @property (strong, nonatomic) NSArray* card_issuers;
 @end
 
@@ -28,12 +31,14 @@
     self.pickerBankList.dataSource = self;
     
     self.card_issuers = [[NSArray alloc] init];
-    
+    self.loader = [[Loader alloc] initWithParent:self.view];
     [self requestCardIssuers];
 }
 
 -(void)requestCardIssuers{
-    NSString* urlStr = [NSString stringWithFormat:@"https://api.mercadopago.com/v1/payment_methods/card_issuers?payment_method_id=%@", self.paymentMethod.identifier];
+    [self.loader showLoading];
+    NSString* param = @"payment_method_id";
+    NSString* urlStr = [NSString stringWithFormat:@"%@?%@=%@", API_CARD_ISSUERS, param, self.paymentMethod.identifier];
     [HTTPHandler requestContentFromURL:urlStr withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
         if (error) {
             // mostrar error
@@ -42,6 +47,7 @@
             self.card_issuers = [self getCardIssuersFrom:json];
             [self.pickerBankList reloadAllComponents];
         }
+        [self.loader hideLoading];
     }];
 }
 
