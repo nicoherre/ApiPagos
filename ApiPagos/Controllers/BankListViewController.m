@@ -16,6 +16,9 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
 @interface BankListViewController ()
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerBankList;
 @property (weak, nonatomic) IBOutlet UILabel *lblTitle;
+@property (weak, nonatomic) IBOutlet UILabel *lblError;
+@property (weak, nonatomic) IBOutlet UIButton *btnContinue;
+
 @property (strong, nonatomic) Loader* loader;
 @property (strong, nonatomic) NSArray* card_issuers;
 @end
@@ -25,7 +28,7 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.lblTitle.text = [NSString stringWithFormat:@"Seleccione el banco emisor de su tarjeta %@", self.paymentMethod.name];
+    self.lblTitle.text = [NSString stringWithFormat:@"Buscando el emisor de su tarjeta %@", self.paymentMethod.name];
     
     self.pickerBankList.delegate = self;
     self.pickerBankList.dataSource = self;
@@ -41,12 +44,22 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
     NSString* urlStr = [NSString stringWithFormat:@"%@?%@=%@", API_CARD_ISSUERS, param, self.paymentMethod.identifier];
     [HTTPHandler requestContentFromURL:urlStr withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
         if (error) {
-            // mostrar error
+            [self.lblError setHidden:NO];
+            [self.lblError setText:@"Hubo un error al cargar los datos."];
+            [self.btnContinue setTitle:@"Regresar" forState:UIControlStateNormal];
         }
         else {
             self.card_issuers = [self getCardIssuersFrom:json];
-            [self.pickerBankList reloadAllComponents];
+            if ([self.card_issuers count] == 0) {
+                [self.pickerBankList setHidden:YES];
+                self.lblTitle.text = [NSString stringWithFormat:@"No se encontraron emisores para la tarjeta %@.", self.paymentMethod.name];
+                [self.btnContinue setTitle:@"Regresar" forState:UIControlStateNormal];
+            }
+            else {
+                [self.pickerBankList reloadAllComponents];
+            }
         }
+        [self.btnContinue setHidden:NO];
         [self.loader hideLoading];
     }];
 }
@@ -59,6 +72,16 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
     }
     
     return cardIssuers;
+}
+
+-(IBAction)continuePressed:(id)sender{
+    if ([self.card_issuers count] == 0) {
+        //There aren't card issuers -> go back to main view
+        [self.navigationController popViewControllerAnimated:YES];
+    }
+    else {
+        [self performSegueWithIdentifier:@"showInstallments" sender:nil];
+    }
 }
 
 #pragma mark - Navigation

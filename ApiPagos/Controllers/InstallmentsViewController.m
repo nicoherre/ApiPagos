@@ -15,6 +15,7 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_paymentMethod;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_cardIssuer;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_installments;
+@property (weak, nonatomic) IBOutlet UILabel *lblError;
 
 @property (strong, nonatomic) Loader* loader;
 @property (strong, nonatomic) NSMutableArray* installments;

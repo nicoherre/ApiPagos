@@ -16,6 +16,7 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 @interface MainViewController ()
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAmount;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerPaymentMethods;
+@property (weak, nonatomic) IBOutlet UILabel *lblError;
 @property (strong, nonatomic) NSMutableString* currentAmount;
 @property (strong, nonatomic) NSArray* paymentMethods;
 @property (strong, nonatomic) Loader* loader;
@@ -47,7 +48,8 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
     [self.loader showLoading];
     [HTTPHandler requestContentFromURL:API_PAYMENT_METHODS withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
         if (error) {
-            // mostrar error
+            [self showMessageError:@"Hubo un error al solicitar los medios de pagos."];
+            [self.pickerPaymentMethods setHidden:YES];
         }
         else {
             self.paymentMethods = [self getPaymentMethodsFrom:json];
@@ -67,6 +69,10 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
     return paymentMethods;
 }
 
+-(void)showMessageError:(NSString*)msg{
+    [self.lblError setHidden:NO];
+    [self.lblError setText:msg];
+}
 
 #pragma mark - UITextField delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
@@ -85,9 +91,18 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
     [self.textFieldAmount setText:[formatter stringFromNumber:numberFromField]];
 }
 
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
+    [self.textFieldAmount resignFirstResponder];
+}
 #pragma mark - Navigation
 - (IBAction)continuePressed:(id)sender {
+    [self.lblError setHidden:YES];
     if ([self.textFieldAmount.text length] == 0) {
+        [self showMessageError:@"Por favor ingrese un monto."];
+        return;
+    }
+    else if ([self.currentAmount doubleValue] <=0){
+        [self showMessageError:@"Ingrese un monto mayor a 0."];
         return;
     }
     [self performSegueWithIdentifier:@"showBankList" sender:sender];
@@ -113,6 +128,10 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 - (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
     PaymentMethod* paymentMethod = self.paymentMethods[row];
     return paymentMethod.name;
+}
+
+- (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
+    [self.textFieldAmount resignFirstResponder];
 }
 
 @end
