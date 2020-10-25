@@ -10,6 +10,7 @@
 #import "HTTPHandler.h"
 #import "PaymentMethod.h"
 #import "Loader.h"
+#import "Definitions.h"
 
 static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/payment_methods";
 
@@ -76,19 +77,29 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 
 #pragma mark - UITextField delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    if ([[NSScanner scannerWithString:string] scanInt:nil]) {
-        [self.currentAmount appendString:string];
+    NSString *cleanCentString = [[textField.text
+                                  componentsSeparatedByCharactersInSet:
+                                  [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                 componentsJoinedByString:@""];
+    // Parse final integer value
+    NSInteger centAmount = cleanCentString.doubleValue;
+    // Check the user input
+    if (string.length > 0) {
+        // Digit added
+        centAmount = centAmount * 10 + string.integerValue;
     }
+    else {
+        // Digit deleted
+        centAmount = centAmount / 10;
+    }
+    // Update call amount value
+    NSNumber *amount = [[NSNumber alloc] initWithDouble:(double)centAmount / 100];
+    // Write amount with currency symbols to the textfield
+    NSNumberFormatter *_currencyFormatter = [[NSNumberFormatter alloc] init];
+    [_currencyFormatter setNumberStyle:NSNumberFormatterCurrencyStyle];
+    textField.text = [_currencyFormatter stringFromNumber:amount];
     
-    [self formatCurrenct:self.currentAmount];
     return false;
-}
-
--(void)formatCurrenct:(NSString*)amountInput{
-    NSNumberFormatter* formatter = [[NSNumberFormatter alloc] init];
-    formatter.numberStyle = NSNumberFormatterCurrencyStyle;
-    NSNumber* numberFromField = [[NSNumber alloc] initWithDouble:([amountInput doubleValue]/100)];
-    [self.textFieldAmount setText:[formatter stringFromNumber:numberFromField]];
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
@@ -130,6 +141,19 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
     return paymentMethod.name;
 }
 
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    if (!view) {
+        view = [[UILabel alloc] init];
+    }
+    UILabel* label = (UILabel*)view;
+    PaymentMethod* paymentMethod = self.paymentMethods[row];
+    
+    [label setFont:[UIFont fontWithName:UIFONT_DEFAULT size:FONT_SIZE]];
+    [label setText:paymentMethod.name];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    
+    return label;
+}
 - (void)pickerView:(UIPickerView *)pickerView didSelectRow:(NSInteger)row inComponent:(NSInteger)component{
     [self.textFieldAmount resignFirstResponder];
 }
