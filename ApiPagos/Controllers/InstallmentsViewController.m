@@ -8,13 +8,19 @@
 #import "InstallmentsViewController.h"
 #import "HTTPHandler.h"
 #import "PayerCost.h"
+#import "Loader.h"
+#import "UIImageView+Url.h"
 
 @interface InstallmentsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *lbl_amount;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_paymentMethod;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_cardIssuer;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_installments;
+@property (weak, nonatomic) IBOutlet UILabel *lblError;
+@property (weak, nonatomic) IBOutlet UIImageView *imgCardIssuer;
+@property (weak, nonatomic) IBOutlet UIImageView *imgPayment;
 
+@property (strong, nonatomic) Loader* loader;
 @property (strong, nonatomic) NSMutableArray* installments;
 @end
 
@@ -23,6 +29,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view.
+    self.loader = [[Loader alloc] initWithParent:self.view];
     [self requestInstallments];
     
     [self.lbl_cardIssuer setText:[NSString stringWithFormat:@"Emisor de la tarjeta: %@", self.cardIssuer.name]];
@@ -30,6 +37,9 @@
     
     NSString* amountFormatter = [self formatCurrenct:[self.amount stringValue]];
     [self.lbl_amount setText:[NSString stringWithFormat:@"Cantidad: %@", amountFormatter]];
+    
+    [self.imgCardIssuer setImageWithUrl:[NSURL URLWithString:self.cardIssuer.thumbnail]];
+    [self.imgPayment setImageWithUrl:[NSURL URLWithString:self.paymentMethod.thumbnail]];
 }
 
 -(NSString*)formatCurrenct:(NSString*)amountInput{
@@ -40,7 +50,9 @@
 }
 
 -(void)requestInstallments{
-    NSString* urlStr = [NSString stringWithFormat:@"https://api.mercadopago.com/v1/payment_methods/installments?payment_method_id=%@&issuer.id=%@&amount=%@", self.paymentMethod.identifier, self.cardIssuer.identifier, self.amount];
+    [self.loader showLoading];
+    NSString* installmentURL= @"https://api.mercadopago.com/v1/payment_methods/installments";
+    NSString* urlStr = [NSString stringWithFormat:@"%@?payment_method_id=%@&issuer.id=%@&amount=%@", installmentURL, self.paymentMethod.identifier, self.cardIssuer.identifier, self.amount];
     [HTTPHandler requestContentFromURL:urlStr withResponseBlock:^(NSURLRequest * _Nonnull request, id  _Nullable json, NSError * _Nullable error) {
         if (error) {
             // mostrar error
@@ -57,8 +69,8 @@
                     [self showInstallments:payerCosts[0]];
                 }
             }
-            
         }
+        [self.loader hideLoading];
     }];
 }
 

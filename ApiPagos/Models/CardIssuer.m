@@ -14,7 +14,7 @@
     if (self) {
         self.identifier = [json objectForKey:@"id"];
         self.name = [json objectForKey:@"name"];
-        self.thumbnail = [json objectForKey:@"thumbnail"];
+        self.thumbnail = [json objectForKey:@"secure_thumbnail"];
     }
     return self;
 }
