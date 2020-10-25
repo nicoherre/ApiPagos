@@ -21,6 +21,7 @@
 		7E9EABD12543ABD0000154F3 /* InstallmentsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABD02543ABD0000154F3 /* InstallmentsViewController.m */; };
 		7E9EABD72543DE47000154F3 /* PayerCost.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABD62543DE47000154F3 /* PayerCost.m */; };
 		7E9EABDC2544914B000154F3 /* Loader.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABDB2544914B000154F3 /* Loader.m */; };
+		7E9EABE12544D7EF000154F3 /* UIImageView+Url.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9EABE02544D7EF000154F3 /* UIImageView+Url.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -50,6 +51,9 @@
 		7E9EABD62543DE47000154F3 /* PayerCost.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = PayerCost.m; sourceTree = "<group>"; };
 		7E9EABDA2544914B000154F3 /* Loader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Loader.h; sourceTree = "<group>"; };
 		7E9EABDB2544914B000154F3 /* Loader.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Loader.m; sourceTree = "<group>"; };
+		7E9EABDF2544D7EF000154F3 /* UIImageView+Url.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UIImageView+Url.h"; sourceTree = "<group>"; };
+		7E9EABE02544D7EF000154F3 /* UIImageView+Url.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = "UIImageView+Url.m"; sourceTree = "<group>"; };
+		7E9EABE42544E9E7000154F3 /* Definitions.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Definitions.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -139,6 +143,9 @@
 			children = (
 				7E0421412540D63D00DB5C8F /* HTTPHandler.h */,
 				7E0421422540D63D00DB5C8F /* HTTPHandler.m */,
+				7E9EABDF2544D7EF000154F3 /* UIImageView+Url.h */,
+				7E9EABE02544D7EF000154F3 /* UIImageView+Url.m */,
+				7E9EABE42544E9E7000154F3 /* Definitions.h */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -222,6 +229,7 @@
 				7E0421432540D63D00DB5C8F /* HTTPHandler.m in Sources */,
 				7E04214C2540F62F00DB5C8F /* PaymentMethod.m in Sources */,
 				7E9EABDC2544914B000154F3 /* Loader.m in Sources */,
+				7E9EABE12544D7EF000154F3 /* UIImageView+Url.m in Sources */,
 				7E9EABD12543ABD0000154F3 /* InstallmentsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

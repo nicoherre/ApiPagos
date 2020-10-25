@@ -9,6 +9,7 @@
 #import "HTTPHandler.h"
 #import "PayerCost.h"
 #import "Loader.h"
+#import "UIImageView+Url.h"
 
 @interface InstallmentsViewController ()
 @property (weak, nonatomic) IBOutlet UILabel *lbl_amount;
@@ -16,6 +17,8 @@
 @property (weak, nonatomic) IBOutlet UILabel *lbl_cardIssuer;
 @property (weak, nonatomic) IBOutlet UILabel *lbl_installments;
 @property (weak, nonatomic) IBOutlet UILabel *lblError;
+@property (weak, nonatomic) IBOutlet UIImageView *imgCardIssuer;
+@property (weak, nonatomic) IBOutlet UIImageView *imgPayment;
 
 @property (strong, nonatomic) Loader* loader;
 @property (strong, nonatomic) NSMutableArray* installments;
@@ -34,6 +37,9 @@
     
     NSString* amountFormatter = [self formatCurrenct:[self.amount stringValue]];
     [self.lbl_amount setText:[NSString stringWithFormat:@"Cantidad: %@", amountFormatter]];
+    
+    [self.imgCardIssuer setImageWithUrl:[NSURL URLWithString:self.cardIssuer.thumbnail]];
+    [self.imgPayment setImageWithUrl:[NSURL URLWithString:self.paymentMethod.thumbnail]];
 }
 
 -(NSString*)formatCurrenct:(NSString*)amountInput{

@@ -30,7 +30,7 @@
     return [self initWithId:[json objectForKey:@"id"]
                        name:[json objectForKey:@"name"]
                        type:[json objectForKey:@"payment_type_id"]
-                  thumbnail:[json objectForKey:@"thumbnail"]
+                  thumbnail:[json objectForKey:@"secure_thumbnail"]
            minAllowedAmount:min_amount
            maxAllowedAmount:max_amount];
 }

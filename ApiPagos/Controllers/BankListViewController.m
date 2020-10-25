@@ -10,6 +10,7 @@
 #import "CardIssuer.h"
 #import "InstallmentsViewController.h"
 #import "Loader.h"
+#import "Definitions.h"
 
 static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/payment_methods/card_issuers";
 
@@ -56,6 +57,7 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
                 [self.btnContinue setTitle:@"Regresar" forState:UIControlStateNormal];
             }
             else {
+                self.lblTitle.text = [NSString stringWithFormat:@"Seleccione el emisor de su tarjeta %@", self.paymentMethod.name];
                 [self.pickerBankList reloadAllComponents];
             }
         }
@@ -107,8 +109,17 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
     return self.card_issuers.count;
 }
 
-- (NSString *)pickerView:(UIPickerView *)pickerView titleForRow:(NSInteger)row forComponent:(NSInteger)component{
+- (UIView *)pickerView:(UIPickerView *)pickerView viewForRow:(NSInteger)row forComponent:(NSInteger)component reusingView:(UIView *)view{
+    if (!view) {
+        view = [[UILabel alloc] init];
+    }
+    UILabel* label = (UILabel*)view;
     CardIssuer* cardIssuer = self.card_issuers[row];
-    return cardIssuer.name;
+    
+    [label setFont:[UIFont fontWithName:UIFONT_DEFAULT size:FONT_SIZE]];
+    [label setText:cardIssuer.name];
+    [label setTextAlignment:NSTextAlignmentCenter];
+    
+    return label;
 }
 @end
