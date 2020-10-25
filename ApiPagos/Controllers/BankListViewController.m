@@ -52,11 +52,11 @@ static NSString * const API_CARD_ISSUERS = @"https://api.mercadopago.com/v1/paym
         else {
             self.card_issuers = [self getCardIssuersFrom:json];
             if ([self.card_issuers count] == 0) {
-                [self.pickerBankList setHidden:YES];
                 self.lblTitle.text = [NSString stringWithFormat:@"No se encontraron emisores para la tarjeta %@.", self.paymentMethod.name];
                 [self.btnContinue setTitle:@"Regresar" forState:UIControlStateNormal];
             }
             else {
+                [self.pickerBankList setHidden:NO];
                 self.lblTitle.text = [NSString stringWithFormat:@"Seleccione el emisor de su tarjeta %@", self.paymentMethod.name];
                 [self.pickerBankList reloadAllComponents];
             }

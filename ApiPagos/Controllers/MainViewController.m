@@ -18,7 +18,9 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 @property (weak, nonatomic) IBOutlet UITextField *textFieldAmount;
 @property (weak, nonatomic) IBOutlet UIPickerView *pickerPaymentMethods;
 @property (weak, nonatomic) IBOutlet UILabel *lblError;
-@property (strong, nonatomic) NSMutableString* currentAmount;
+@property (weak, nonatomic) IBOutlet UIButton *btnContinue;
+@property (weak, nonatomic) IBOutlet UIButton *btnRetry;
+
 @property (strong, nonatomic) NSArray* paymentMethods;
 @property (strong, nonatomic) Loader* loader;
 @end
@@ -41,7 +43,6 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 
 - (void)viewWillAppear:(BOOL)animated{
     self.textFieldAmount.text = @"";
-    self.currentAmount = [[NSMutableString alloc] init];
 }
 
 
@@ -51,8 +52,13 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
         if (error) {
             [self showMessageError:@"Hubo un error al solicitar los medios de pagos."];
             [self.pickerPaymentMethods setHidden:YES];
+            [self hideViewAnimated:self.btnContinue];
+            [self showViewAnimated:self.btnRetry];
         }
         else {
+            [self hideViewAnimated:self.btnRetry];
+            [self showViewAnimated:self.btnContinue];
+            [self showViewAnimated:self.pickerPaymentMethods];
             self.paymentMethods = [self getPaymentMethodsFrom:json];
             [self.pickerPaymentMethods reloadAllComponents];
         }
@@ -71,18 +77,58 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 }
 
 -(void)showMessageError:(NSString*)msg{
-    [self.lblError setHidden:NO];
     [self.lblError setText:msg];
+    [self showViewAnimated:self.lblError];
+}
+
+-(void)showViewAnimated:(UIView*)view{
+    [view setAlpha:0];
+    [view setHidden:NO];
+    [UIView animateWithDuration:.4 animations:^{
+            [view setAlpha:1];
+    }];
+}
+
+-(void)hideViewAnimated:(UIView*)view {
+    [UIView animateWithDuration:.4 animations:^{
+            [view setAlpha:0];
+        } completion:^(BOOL finished) {
+            [view setHidden:YES];
+        }];
+}
+
+#pragma mark - IBAction
+-(IBAction)retryPressed:(id)sender{
+    [self requestPaymentMethods];
+    [self hideViewAnimated:self.lblError];
+}
+
+- (IBAction)continuePressed:(id)sender {
+    [self.lblError setHidden:YES];
+    if ([self.textFieldAmount.text length] == 0) {
+        [self showMessageError:@"Por favor ingrese un monto."];
+        return;
+    }
+    else if ([self parseStringToInteger:self.textFieldAmount.text] <=0){
+        [self showMessageError:@"Ingrese un monto mayor a 0."];
+        return;
+    }
+    [self performSegueWithIdentifier:@"showBankList" sender:sender];
+}
+
+-(NSInteger)parseStringToInteger:(NSString*)string{
+    NSString *cleanCentString = [[string
+                                  componentsSeparatedByCharactersInSet:
+                                  [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
+                                 componentsJoinedByString:@""];
+    
+    return cleanCentString.integerValue;
 }
 
 #pragma mark - UITextField delegate
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range replacementString:(NSString *)string{
-    NSString *cleanCentString = [[textField.text
-                                  componentsSeparatedByCharactersInSet:
-                                  [[NSCharacterSet decimalDigitCharacterSet] invertedSet]]
-                                 componentsJoinedByString:@""];
     // Parse final integer value
-    NSInteger centAmount = cleanCentString.doubleValue;
+    NSInteger centAmount = [self parseStringToInteger:textField.text];
     // Check the user input
     if (string.length > 0) {
         // Digit added
@@ -105,24 +151,14 @@ static NSString * const API_PAYMENT_METHODS = @"https://api.mercadopago.com/v1/p
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event{
     [self.textFieldAmount resignFirstResponder];
 }
+
+
 #pragma mark - Navigation
-- (IBAction)continuePressed:(id)sender {
-    [self.lblError setHidden:YES];
-    if ([self.textFieldAmount.text length] == 0) {
-        [self showMessageError:@"Por favor ingrese un monto."];
-        return;
-    }
-    else if ([self.currentAmount doubleValue] <=0){
-        [self showMessageError:@"Ingrese un monto mayor a 0."];
-        return;
-    }
-    [self performSegueWithIdentifier:@"showBankList" sender:sender];
-}
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     BankListViewController* vc = [segue destinationViewController];
-    double amount = [self.currentAmount doubleValue];
-    vc.amount = [NSNumber numberWithDouble:amount/100];
+    double amount = [self parseStringToInteger:self.textFieldAmount.text];
+    vc.amount = [NSNumber numberWithDouble:(amount/100)];
     NSInteger row = [self.pickerPaymentMethods selectedRowInComponent:0];
     vc.paymentMethod = self.paymentMethods[row];
 }
